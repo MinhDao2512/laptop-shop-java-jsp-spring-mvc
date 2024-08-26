@@ -7,16 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoidanit.laptopshop.service.UserService;
 
-// @Controller
-// public class UserController {
-
-//     @RequestMapping("/")
-//     public String getHomePage() {
-//         return "Hello from controller";
-//     }
-// }
-
-@RestController
+@Controller
 public class UserController {
 
     // DI: Dependency Injection
@@ -26,8 +17,25 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @RequestMapping("/toilamdev")
     public String getHomePage() {
-        return this.userService.handelHello();
+        String test = this.userService.handelHello();
+        return "eric.html";
     }
 }
+
+// @RestController
+// public class UserController {
+
+// // DI: Dependency Injection
+// private UserService userService;
+
+// public UserController(UserService userService) {
+// this.userService = userService;
+// }
+
+// @GetMapping("/")
+// public String getHomePage() {
+// return this.userService.handelHello();
+// }
+// }
