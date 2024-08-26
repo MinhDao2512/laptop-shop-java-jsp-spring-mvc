@@ -3,6 +3,7 @@ package vn.hoidanit.laptopshop.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoidanit.laptopshop.service.UserService;
 
@@ -22,6 +23,11 @@ public class UserController {
         model.addAttribute("adam", test);
         model.addAttribute("toilamdev", "From userController");
         return "hello";
+    }
+
+    @RequestMapping("/admin/user")
+    public String getCreateUserPage(Model model) {
+        return "admin/user/create";
     }
 }
 
