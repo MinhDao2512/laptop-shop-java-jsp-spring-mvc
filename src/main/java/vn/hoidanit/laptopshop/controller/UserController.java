@@ -53,4 +53,16 @@ public class UserController {
         this.userService.handleSaveUser(toilamdev);
         return "redirect:/admin/user";
     }
+
+    @RequestMapping("/admin/user/update/{id}")
+    public String getUserUpdatePage(Model model, @PathVariable long id) {
+        model.addAttribute("oldUser", new User());
+        model.addAttribute("id", id);
+        return "/admin/user/update";
+    }
+
+    @RequestMapping(value = "/admin/user/update/{id}", method = RequestMethod.POST)
+    public String updateUserPage(Model model, @ModelAttribute("oldUser") User oldUser, @PathVariable Long id) {
+        return "redirect:/admin/user";
+    }
 }
