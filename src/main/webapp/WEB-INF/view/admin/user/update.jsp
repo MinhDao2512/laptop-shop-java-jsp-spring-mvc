@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update User ${id}</title>
+    <title>Update User</title>
     <!-- Latest compiled and minified CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Latest compiled JavaScript -->
@@ -16,10 +16,10 @@
             <div class="col-md-6 col-12 mx-auto">
                 <h3>Create a user</h3>
                 <hr />
-                <form:form method="post" action="/admin/user/update/${id}" modelAttribute="oldUser">
-                    <div class="mb-3">
+                <form:form method="post" action="/admin/user/update" modelAttribute="newUser">
+                    <div class="mb-3" style="display: none;">
                         <label class="form-label">Id:</label>
-                        <form:input type="text" class="form-control" path="id" value="${id}"/>
+                        <form:input type="text" class="form-control" path="id"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email:</label>
