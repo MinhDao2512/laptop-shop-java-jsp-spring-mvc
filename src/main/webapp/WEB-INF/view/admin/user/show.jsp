@@ -16,14 +16,16 @@
         <div class = "row">
             <div class="col-12 mx-auto">
                 <h3>User detail with id = ${id}</h3>
+                <hr/>
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">User Information</div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Email</li>
-                      <li class="list-group-item">Full name</li>
-                      <li class="list-group-item">Address</li>
+                      <li class="list-group-item">Email: ${user.email}</li>
+                      <li class="list-group-item">Full name: ${user.fullName}</li>
+                      <li class="list-group-item">Address: ${user.address}</li>
                     </ul>
                 </div>
+                <a class="btn btn-success mt-3" href="/admin/user">Back</a>
             </div>
         </div>
     </div>
