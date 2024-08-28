@@ -14,7 +14,6 @@
 </head>
 <body>
     <h1>Hello from JSP</h1>
-    <h1>${adam}</h1>
     <button class="btn btn-warning">Submit</button>
 </body>
 </html>
