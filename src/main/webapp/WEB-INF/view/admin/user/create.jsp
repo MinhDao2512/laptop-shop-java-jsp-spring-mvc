@@ -12,6 +12,8 @@
     <title>Dashboard - Create User</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!--Import JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -42,29 +44,41 @@
                             <div class="col-md-6 col-12 mx-auto">
                                 <h3>Create a user</h3>
                                 <hr />
-                                <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
-                                    <div class="mb-3">
+                                <form:form class="row" method="post" action="/admin/user/create" modelAttribute="newUser">
+                                    <div class="mb-3 col-12 col-md-6">
                                         <label class="form-label">Email:</label>
                                         <form:input type="email" class="form-control" path="email"/>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-12 col-md-6">
                                         <label class="form-label">Password:</label>
                                         <form:input type="password" class="form-control" path="password"/>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-12 col-md-6">
                                         <label class="form-label">Phone number:</label>
                                         <form:input type="text" class="form-control" path="phone"/>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-12 col-md-6">
                                         <label class="form-label">Full Name:</label>
                                         <form:input type="text" class="form-control" path="fullName"/>
                                     </div>
-                                    <div class="mb-3">
+                                    <div class="mb-3 col-12">
                                         <label class="form-label">Address:</label>
                                         <form:input type="text" class="form-control" path="address"/>
                                     </div>
-                    
-                                    <!-- <button type="submit" class="btn btn-primary">Create</button> -->
+                                    <div class="mb3 col-12 col-md-6">
+                                        <label class="form-label">Role:</label>
+                                        <select class="form-select">
+                                            <option value="ADMIN">ADMIN</option>
+                                            <option value="USER">USER</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 col-12 col-md-6">
+                                        <label for="avatarFile" class="form-label">Avatar:</label>
+                                        <input class="form-control" type="file" id="avatarFile" accept=".png, .jpg, .jpeg">
+                                    </div>
+                                    <div class="mb-3 col-12">
+                                        <img style="max-height: 250px; display: none;" alt="avatar preview" id="avatarPreview"/>
+                                    </div>
                                     <div class="d-flex justify-content-between">
                                         <a class="btn btn-success" href="/admin/user">Back</a>
                                         <button type="submit" class="btn btn-primary">Create</button>
@@ -85,6 +99,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script src="/js/scripts.js"></script>
+    <!--JQuery Show Avatar Preview-->
+    <script>
+        $(document).ready(() => {
+            const avatarFile = $("#avatarFile");
+            avatarFile.change(
+                function(e){
+                    const imfURL = URL.createObjectURL(e.target.files[0]);
+                    $("#avatarPreview").attr("src", imfURL); 
+                    $("#avatarPreview").css({"display": "block"});
+                }
+            );
+        });
+    </script>
 </body>
 
 </html>
