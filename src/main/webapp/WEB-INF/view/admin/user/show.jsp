@@ -1,33 +1,65 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@include file = "/resources/taglib.jsp" %>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Detail ${id}</title>
-    <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- <link href="/css/demo.css" rel="stylesheet"> -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Tôi Làm Dev - Dự án LaptopShop" />
+    <meta name="author" content="Tôi Làm Dev" />
+    <title>Dashboard - User</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <div class = "container mt-5">
-        <div class = "row">
-            <div class="col-12 mx-auto">
-                <h3>User detail with id = ${id}</h3>
-                <hr/>
-                <div class="card" style="width: 18rem;">
-                    <div class="card-header">User Information</div>
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item">Email: ${user.email}</li>
-                      <li class="list-group-item">Full name: ${user.fullName}</li>
-                      <li class="list-group-item">Address: ${user.address}</li>
-                    </ul>
+
+<body class="sb-nav-fixed">
+    <!--Start Header-->
+    <jsp:include page="../layout/header.jsp"/>
+    <!--End Header-->
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <!--Start Sidebar-->
+                <jsp:include page="../layout/sidebar.jsp"/>
+                <!--End Sidebar-->
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <!--Start Content-->
+            <main>
+                <div class="container-fluid px-4">
+                    <div class = "container mt-5">
+                        <div class = "row">
+                            <div class="col-12 mx-auto">
+                                <h3>User detail with id = ${id}</h3>
+                                <hr/>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-header">User Information</div>
+                                    <ul class="list-group list-group-flush">
+                                      <li class="list-group-item">Email: ${user.email}</li>
+                                      <li class="list-group-item">Full name: ${user.fullName}</li>
+                                      <li class="list-group-item">Address: ${user.address}</li>
+                                    </ul>
+                                </div>
+                                <a class="btn btn-success mt-3" href="/admin/user">Back</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <a class="btn btn-success mt-3" href="/admin/user">Back</a>
-            </div>
+            </main> 
+            <!--End Content-->
+
+            <!--Footer-->
+            <jsp:include page="../layout/footer.jsp"/>
+            <!--End Footer-->
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/js/scripts.js"></script>
 </body>
+
 </html>

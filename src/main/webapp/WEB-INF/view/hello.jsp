@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@include file = "/resources/taglib.jsp" %>
 
 <html lang="en">
@@ -13,7 +14,7 @@
     <!-- <link href="/css/demo.css" rel="stylesheet"> -->
 </head>
 <body>
-    <h1>Hello from JSP</h1>
+    <h1>Hello JSP</h1>
     <button class="btn btn-warning">Submit</button>
 </body>
 </html>
