@@ -21,7 +21,6 @@ public class Product {
     private Long sold;
     private String factory;
     private String target;
-    // oder id
 
     public Long getId() {
         return id;
