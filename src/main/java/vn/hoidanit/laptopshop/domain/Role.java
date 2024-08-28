@@ -1,9 +1,12 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +17,10 @@ public class Role {
     private Long id;
     private String name;
     private String description;
+
+    // One Role -> to many -> users
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -39,9 +46,17 @@ public class Role {
         this.description = description;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
-        return "Role [id=" + id + ", name=" + name + ", description=" + description + "]";
+        return "Role [id=" + id + ", name=" + name + ", description=" + description + ", users=" + users + "]";
     }
 
 }
