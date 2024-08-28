@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Tôi Làm Dev - Dự án LaptopShop" />
     <meta name="author" content="Tôi Làm Dev" />
-    <title>Dashboard - User</title>
+    <title>Dashboard - Update User</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -31,7 +31,13 @@
             <!--Start Content-->
             <main>
                 <div class="container-fluid px-4">
-                    <div class="container mt-5">
+                    <h1 class="mt-4">Manage Users</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard </a></li>
+                        <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
+                        <li class="breadcrumb-item active">Update</li>
+                    </ol>
+                    <div class="mt-5">
                         <div class="row">
                             <div class="col-md-6 col-12 mx-auto">
                                 <h3>Create a user</h3>
@@ -59,7 +65,7 @@
                                     </div>
                     
                                     <div class="d-flex justify-content-between">
-                                        <a class="btn btn-success" href="/admin/user">Back</a>
+                                        <a class="btn btn-success" href="/admin/user">Cancel</a>
                                         <button type="submit" class="btn btn-warning">Update</button>
                                     </div>
                                 </form:form>
