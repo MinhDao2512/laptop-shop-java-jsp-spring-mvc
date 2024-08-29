@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.UploadFileService;
 import vn.hoidanit.laptopshop.service.UserService;
 
 @Controller
@@ -17,9 +20,11 @@ public class UserController {
 
     // DI: Dependency Injection
     private final UserService userService;
+    private final UploadFileService fileService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UploadFileService fileService) {
         this.userService = userService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/")
@@ -49,8 +54,11 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/create")
-    public String createUserPage(Model model, @ModelAttribute("newUser") User toilamdev) {
-        this.userService.handleSaveUser(toilamdev);
+    public String createUserPage(Model model, @ModelAttribute("newUser") User toilamdev,
+            @RequestParam("avatarFile") MultipartFile avatarFile) {
+        // this.userService.handleSaveUser(toilamdev);
+        String fileNameAvatar = this.fileService.handleSaveUploadFile(avatarFile, "avatar");
+        System.out.println(fileNameAvatar);
         return "redirect:/admin/user";
     }
 
