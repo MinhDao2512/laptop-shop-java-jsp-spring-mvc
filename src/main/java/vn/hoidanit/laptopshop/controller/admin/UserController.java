@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UploadFileService;
 import vn.hoidanit.laptopshop.service.UserService;
 
@@ -21,10 +23,15 @@ public class UserController {
     // DI: Dependency Injection
     private final UserService userService;
     private final UploadFileService fileService;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UploadFileService fileService) {
+    public UserController(UserService userService, UploadFileService fileService, RoleService roleService,
+            PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.fileService = fileService;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -56,9 +63,13 @@ public class UserController {
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("newUser") User toilamdev,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
-        // this.userService.handleSaveUser(toilamdev);
         String fileNameAvatar = this.fileService.handleSaveUploadFile(avatarFile, "avatar");
-        System.out.println(fileNameAvatar);
+        String hashPassword = this.passwordEncoder.encode(toilamdev.getPassword());
+
+        toilamdev.setAvatar(fileNameAvatar);
+        toilamdev.setPassword(hashPassword);
+        toilamdev.setRole(roleService.getByName(toilamdev.getRole().getName()));
+        this.userService.handleSaveUser(toilamdev);
         return "redirect:/admin/user";
     }
 
