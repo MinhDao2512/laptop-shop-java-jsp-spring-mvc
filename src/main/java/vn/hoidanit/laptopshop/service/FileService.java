@@ -11,15 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.ServletContext;
 
 @Service
-public class UploadFileService {
+public class FileService {
 
     private final ServletContext servletContext;
 
-    public UploadFileService(ServletContext servletContext) {
+    public FileService(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
 
     public String handleSaveUploadFile(MultipartFile file, String directory) {
+        String fileName = "";
         try {
             byte[] bytes = file.getBytes();
             String rootPath = this.servletContext.getRealPath("/resources/images");
@@ -29,15 +30,28 @@ public class UploadFileService {
                 rootDirectory.mkdirs();
             }
 
-            File serverFile = new File(rootDirectory.getAbsolutePath() + File.separator + System.currentTimeMillis()
-                    + "-" + file.getOriginalFilename());
+            fileName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+            File serverFile = new File(rootDirectory.getAbsolutePath() + File.separator + fileName);
 
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(bytes);
             stream.close();
-            return file.getOriginalFilename();
+            return fileName;
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public Boolean handleDeleteUploadFile(String fileName, String directory) {
+        String rootPath = this.servletContext.getRealPath("/resources/images");
+        File dir = new File(rootPath + File.separator + directory);
+
+        if (dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File currentFile = new File(dir.getAbsolutePath() + File.separator + fileName);
+        Boolean check = currentFile.delete();
+        return check;
     }
 }

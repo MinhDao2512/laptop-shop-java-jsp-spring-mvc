@@ -48,6 +48,7 @@
                                       <li class="list-group-item">Email: ${user.email}</li>
                                       <li class="list-group-item">Full name: ${user.fullName}</li>
                                       <li class="list-group-item">Address: ${user.address}</li>
+                                      <li class="list-group-item">Role name: ${user.role.name}</li>
                                     </ul>
                                 </div>
                                 <a class="btn btn-success mt-3" href="/admin/user">Back</a>

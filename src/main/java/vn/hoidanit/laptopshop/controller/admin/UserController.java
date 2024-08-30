@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.RoleService;
-import vn.hoidanit.laptopshop.service.UploadFileService;
+import vn.hoidanit.laptopshop.service.FileService;
 import vn.hoidanit.laptopshop.service.UserService;
 
 @Controller
@@ -22,11 +23,11 @@ public class UserController {
 
     // DI: Dependency Injection
     private final UserService userService;
-    private final UploadFileService fileService;
+    private final FileService fileService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UploadFileService fileService, RoleService roleService,
+    public UserController(UserService userService, FileService fileService, RoleService roleService,
             PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.fileService = fileService;
@@ -63,10 +64,11 @@ public class UserController {
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("newUser") User toilamdev,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
-        String fileNameAvatar = this.fileService.handleSaveUploadFile(avatarFile, "avatar");
         String hashPassword = this.passwordEncoder.encode(toilamdev.getPassword());
 
-        toilamdev.setAvatar(fileNameAvatar);
+        if (avatarFile.getOriginalFilename() != "") {
+            toilamdev.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
+        }
         toilamdev.setPassword(hashPassword);
         toilamdev.setRole(roleService.getByName(toilamdev.getRole().getName()));
         this.userService.handleSaveUser(toilamdev);
@@ -76,18 +78,25 @@ public class UserController {
     @GetMapping("/admin/user/update/{id}")
     public String getUserUpdatePage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserById(id);
-        System.out.println(currentUser);
         model.addAttribute("newUser", currentUser);
         return "/admin/user/update";
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User newUser) {
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User newUser,
+            @RequestParam("avatarFile") MultipartFile avatarFile) {
         User currentUser = this.userService.getUserById(newUser.getId());
+        Role currentRole = this.roleService.getByName(newUser.getRole().getName());
+
         if (currentUser != null) {
             currentUser.setAddress(newUser.getAddress());
             currentUser.setPhone(newUser.getPhone());
             currentUser.setFullName(newUser.getFullName());
+            currentUser.setRole(currentRole);
+            if (avatarFile.getOriginalFilename() != "") {
+                this.fileService.handleDeleteUploadFile(currentUser.getAvatar(), "avatar");
+                currentUser.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
+            }
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
