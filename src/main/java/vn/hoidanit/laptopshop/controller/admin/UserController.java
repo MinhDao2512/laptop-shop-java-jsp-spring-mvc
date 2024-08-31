@@ -61,20 +61,21 @@ public class UserController {
 
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model, @ModelAttribute("newUser") @Valid User toilamdev,
-            BindingResult bindingResult,
+            BindingResult newUserBindingResult,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
 
-        // Validation Start
-        List<FieldError> errors = bindingResult.getFieldErrors();
+        // validation Start
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            System.out.println(error.getObjectName() + "-" + error.getDefaultMessage());
+            System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
         }
-        // Validation End
-
+        if (newUserBindingResult.hasErrors()) {
+            return "/admin/user/create";
+        }
+        // validation End
         String hashPassword = this.passwordEncoder.encode(toilamdev.getPassword());
-        if (avatarFile.getOriginalFilename() != "") {
-            toilamdev.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
-        }
+
+        toilamdev.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
         toilamdev.setPassword(hashPassword);
         toilamdev.setRole(roleService.getByName(toilamdev.getRole().getName()));
         this.userService.handleSaveUser(toilamdev);
