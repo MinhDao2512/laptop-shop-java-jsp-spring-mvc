@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -75,7 +74,7 @@ public class UserController {
         toilamdev.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
         toilamdev.setPassword(hashPassword);
         toilamdev.setRole(roleService.getByName(toilamdev.getRole().getName()));
-        this.userService.handleSaveUser(toilamdev);
+        this.userService.createOrUpdateUser(toilamdev);
         return "redirect:/admin/user";
     }
 
@@ -108,7 +107,7 @@ public class UserController {
                 this.fileService.handleDeleteUploadFile(currentUser.getAvatar(), "avatar");
                 currentUser.setAvatar(this.fileService.handleSaveUploadFile(avatarFile, "avatar"));
             }
-            this.userService.handleSaveUser(currentUser);
+            this.userService.createOrUpdateUser(currentUser);
         }
         return "redirect:/admin/user";
     }
@@ -124,7 +123,7 @@ public class UserController {
     public String postDeleteUser(Model model, @ModelAttribute("currentUser") User currentUser) {
         User user = this.userService.getUserById(currentUser.getId());
         fileService.handleDeleteUploadFile(user.getAvatar(), "avatar");
-        this.userService.handleDeleteUser(currentUser.getId());
+        this.userService.deleteUserById(currentUser.getId());
         return "redirect:/admin/user";
     }
 }

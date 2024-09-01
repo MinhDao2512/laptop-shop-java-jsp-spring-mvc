@@ -64,7 +64,7 @@ public class ProductController {
         }
         // validation
         product.setImage(this.fileService.handleSaveUploadFile(imageFileMultipartFile, "product"));
-        this.productService.handleSaveProduct(product);
+        this.productService.createOrUpdateProduct(product);
         return "redirect:/admin/product";
     }
 
@@ -91,7 +91,7 @@ public class ProductController {
             this.fileService.handleDeleteUploadFile(currentProduct.getImage(), "product");
             newProduct.setImage(this.fileService.handleSaveUploadFile(multipartFile, "product"));
         }
-        this.productService.handleSaveProduct(newProduct);
+        this.productService.createOrUpdateProduct(newProduct);
         return "redirect:/admin/product";
     }
 
@@ -106,7 +106,7 @@ public class ProductController {
     public String postDeleteProduct(Model model, @ModelAttribute("currentProduct") Product currentProduct) {
         Product product = this.productService.getProductById(currentProduct.getId());
         fileService.handleDeleteUploadFile(product.getImage(), "product");
-        this.productService.handleDeleteProductById(product.getId());
+        this.productService.deleteProductById(product.getId());
         return "redirect:/admin/product";
     }
 }

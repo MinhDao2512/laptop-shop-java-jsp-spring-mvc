@@ -16,7 +16,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product handleSaveProduct(Product product) {
+    public Product createOrUpdateProduct(Product product) {
         return this.productRepository.save(product);
     }
 
@@ -28,7 +28,7 @@ public class ProductService {
         return this.productRepository.findById(id);
     }
 
-    public Boolean handleDeleteProductById(long id) {
+    public Boolean deleteProductById(long id) {
         return this.productRepository.deleteById(id);
     }
 }

@@ -51,7 +51,7 @@
                                         <form:input type="text" class="form-control" path="id"/>
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <a class="btn btn-success" href="/admin/productr">Cancel</a>
+                                        <a class="btn btn-success" href="/admin/product">Cancel</a>
                                         <button type="submit" class="btn btn-danger">Confirm</button>
                                     </div>
                                 </form:form>

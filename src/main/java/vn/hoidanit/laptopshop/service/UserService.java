@@ -20,20 +20,15 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public User handleSaveUser(User user) {
-        User toilamdev = this.userRepository.save(user);
-        return toilamdev;
-    }
-
-    public List<User> getAllUserByEmail(String email) {
-        return this.userRepository.findByEmail(email);
+    public User createOrUpdateUser(User user) {
+        return this.userRepository.save(user);
     }
 
     public User getUserById(long id) {
         return this.userRepository.findById(id);
     }
 
-    public void handleDeleteUser(long id) {
+    public void deleteUserById(long id) {
         this.userRepository.deleteById(id);
     }
 
