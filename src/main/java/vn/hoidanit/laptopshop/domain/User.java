@@ -21,16 +21,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotNull(groups = CreateUser.class)
+    @Email(message = "Email không hợp lệ", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", groups = CreateUser.class)
     private String email;
 
-    @NotNull
-    @Size(min = 3, message = "Password phải có it nhất 3 ký tự")
+    @NotNull(groups = CreateUser.class)
+    @Size(min = 3, message = "Password phải có it nhất 3 ký tự", groups = CreateUser.class)
     private String password;
 
-    @NotNull
-    @Size(min = 3, message = "Fullname phải có ít nhất 3 ký tự")
+    @NotNull(groups = { CreateUser.class, UpdateUser.class })
+    @Size(min = 3, message = "Fullname phải có ít nhất 3 ký tự", groups = { CreateUser.class, UpdateUser.class })
     private String fullName;
 
     private String address;
@@ -45,6 +45,12 @@ public class User {
     // User one -> to many -> orders
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    public interface CreateUser {
+    };
+
+    public interface UpdateUser {
+    };
 
     public Long getId() {
         return id;

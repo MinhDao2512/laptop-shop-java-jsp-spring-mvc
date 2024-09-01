@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.RoleService;
@@ -60,7 +60,8 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/create")
-    public String createUserPage(Model model, @ModelAttribute("newUser") @Valid User toilamdev,
+    public String createUserPage(Model model,
+            @ModelAttribute("newUser") @Validated(User.CreateUser.class) User toilamdev,
             BindingResult newUserBindingResult,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
 
@@ -69,7 +70,7 @@ public class UserController {
         for (FieldError error : errors) {
             System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
         }
-        if (newUserBindingResult.hasErrors()) {
+        if (newUserBindingResult.hasFieldErrors()) {
             return "/admin/user/create";
         }
         // validation End
@@ -90,11 +91,24 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User newUser,
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") @Validated(User.UpdateUser.class) User newUser,
+            BindingResult newUserBindingResult,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
-        User currentUser = this.userService.getUserById(newUser.getId());
-        Role currentRole = this.roleService.getByName(newUser.getRole().getName());
 
+        // Validation
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
+        }
+        if (newUserBindingResult.hasFieldErrors()) {
+            User currentUser = this.userService.getUserById(newUser.getId());
+            newUser.setEmail(currentUser.getEmail());
+            newUser.setAvatar(currentUser.getAvatar());
+            return "/admin/user/update";
+        }
+        // Validation
+        Role currentRole = this.roleService.getByName(newUser.getRole().getName());
+        User currentUser = this.userService.getUserById(newUser.getId());
         if (currentUser != null) {
             currentUser.setAddress(newUser.getAddress());
             currentUser.setPhone(newUser.getPhone());
