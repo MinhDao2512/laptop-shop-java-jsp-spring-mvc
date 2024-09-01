@@ -66,10 +66,6 @@ public class UserController {
             @RequestParam("avatarFile") MultipartFile avatarFile) {
 
         // validation Start
-        List<FieldError> errors = newUserBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
-        }
         if (newUserBindingResult.hasFieldErrors()) {
             return "/admin/user/create";
         }
@@ -95,20 +91,14 @@ public class UserController {
             BindingResult newUserBindingResult,
             @RequestParam("avatarFile") MultipartFile avatarFile) {
 
+        User currentUser = this.userService.getUserById(newUser.getId());
         // Validation
-        List<FieldError> errors = newUserBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
-        }
         if (newUserBindingResult.hasFieldErrors()) {
-            User currentUser = this.userService.getUserById(newUser.getId());
-            newUser.setEmail(currentUser.getEmail());
             newUser.setAvatar(currentUser.getAvatar());
             return "/admin/user/update";
         }
         // Validation
         Role currentRole = this.roleService.getByName(newUser.getRole().getName());
-        User currentUser = this.userService.getUserById(newUser.getId());
         if (currentUser != null) {
             currentUser.setAddress(newUser.getAddress());
             currentUser.setPhone(newUser.getPhone());
@@ -132,6 +122,8 @@ public class UserController {
 
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("currentUser") User currentUser) {
+        User user = this.userService.getUserById(currentUser.getId());
+        fileService.handleDeleteUploadFile(user.getAvatar(), "avatar");
         this.userService.handleDeleteUser(currentUser.getId());
         return "redirect:/admin/user";
     }

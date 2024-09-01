@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Tôi Làm Dev - Dự án LaptopShop" />
     <meta name="author" content="Tôi Làm Dev" />
-    <title>Dashboard - Show User</title>
+    <title>Dashboard - Delete Product</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -31,30 +31,30 @@
             <!--Start Content-->
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Manage Users</h1>
+                    <h1 class="mt-4">Manage Products</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="/admin">Dashboard </a></li>
-                        <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
-                        <li class="breadcrumb-item active">View</li>
+                        <li class="breadcrumb-item"><a href="/admin/product">Products</a></li>
+                        <li class="breadcrumb-item active">Delete</li>
                     </ol>
                     <div class = "mt-5">
                         <div class = "row">
                             <div class="col-12 mx-auto">
-                                <h3>User detail with id = ${id}</h3>
-                                <hr/>
-                                <div class="card" style="width: 25rem;">
-                                    <c:if test="${not empty user.avatar}">
-                                        <img src="<c:url value='/images/avatar/${user.avatar}'/>" style="max-height: 250px; display: block;" alt="image preview"/>
-                                    </c:if>
-                                    <div class="card-header">User Information</div>
-                                    <ul class="list-group list-group-flush"> 
-                                      <li class="list-group-item">Email: ${user.email}</li>
-                                      <li class="list-group-item">Full name: ${user.fullName}</li>
-                                      <li class="list-group-item">Address: ${user.address}</li>
-                                      <li class="list-group-item">Role name: ${user.role.name}</li>
-                                    </ul>
+                                <h3>Delete the user with id = ${currentProduct.id}</h3>
+                                <hr>
+                                <div class="alert alert-danger" role="alert">
+                                    Are you sure to delete this product ?
                                 </div>
-                                <a class="btn btn-success mt-3" href="/admin/user">Back</a> 
+                                <form:form action="/admin/product/delete" method="post" modelAttribute="currentProduct">
+                                    <div class="mb-3" style="display: none;">
+                                        <label class="form-label">Id:</label>
+                                        <form:input type="text" class="form-control" path="id"/>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <a class="btn btn-success" href="/admin/productr">Cancel</a>
+                                        <button type="submit" class="btn btn-danger">Confirm</button>
+                                    </div>
+                                </form:form>
                             </div>
                         </div>
                     </div>
