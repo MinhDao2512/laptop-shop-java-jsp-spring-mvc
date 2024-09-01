@@ -44,7 +44,7 @@
                                 <hr/>
                                 <div class="card" style="width: 25rem;">
                                     <c:if test="${not empty user.avatar}">
-                                        <img src="<c:url value='/images/avatar/${user.avatar}'/>" style="max-height: 250px; display: block;" alt="image preview"/>
+                                        <img src="/images/avatar/${user.avatar}" style="max-height: 250px; display: block;" alt="image preview"/>
                                     </c:if>
                                     <div class="card-header">User Information</div>
                                     <ul class="list-group list-group-flush"> 

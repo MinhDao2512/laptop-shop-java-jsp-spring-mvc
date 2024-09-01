@@ -44,7 +44,7 @@
                                 <hr/>
                                 <div class="card" style="width: 25rem;">
                                     <c:if test="${not empty product.image}">
-                                        <img src="<c:url value='/images/product/${product.image}'/>" style="max-height: 250px; display: block;" alt="image preview"/>
+                                        <img src="/images/product/${product.image}" style="max-height: 250px; display: block;" alt="image preview"/>
                                     </c:if>
                                     <div class="card-header">Product Information</div>
                                     <ul class="list-group list-group-flush"> 

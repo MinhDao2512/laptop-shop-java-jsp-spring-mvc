@@ -64,6 +64,7 @@ public class ProductController {
         }
         // validation
         product.setImage(this.fileService.handleSaveUploadFile(imageFileMultipartFile, "product"));
+        product.setSold(0L);
         this.productService.createOrUpdateProduct(product);
         return "redirect:/admin/product";
     }
@@ -91,6 +92,7 @@ public class ProductController {
             this.fileService.handleDeleteUploadFile(currentProduct.getImage(), "product");
             newProduct.setImage(this.fileService.handleSaveUploadFile(multipartFile, "product"));
         }
+        newProduct.setSold(currentProduct.getSold());
         this.productService.createOrUpdateProduct(newProduct);
         return "redirect:/admin/product";
     }
