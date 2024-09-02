@@ -55,9 +55,13 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                        <form:input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password"
+                                                        <c:set var="errorConfirmPassword"> 
+                                                            <form:errors path="confirmPassword" cssClass="invalid-feedback"/>
+                                                        </c:set>
+                                                        <form:input class="form-control ${not empty errorConfirmPassword ? 'is-invalid' : ''}" id="inputPasswordConfirm" type="password" placeholder="Confirm password"
                                                             path="confirmPassword"/>
                                                         <label for="inputPasswordConfirm">Confirm Password</label>
+                                                        ${errorConfirmPassword}
                                                     </div>
                                                 </div>
                                             </div>
