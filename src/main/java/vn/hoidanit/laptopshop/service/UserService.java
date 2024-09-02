@@ -33,6 +33,14 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
 
+    public List<User> getUsersByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
+    public boolean checkExistsUserByEmail(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
     public User registerDTOtoUSer(RegisterDTO registerDTO) {
         User user = new User();
         user.setFullName(registerDTO.getFirstName() + registerDTO.getLastName());

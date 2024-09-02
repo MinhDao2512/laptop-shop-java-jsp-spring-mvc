@@ -41,9 +41,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <form:input class="form-control" id="inputEmail" type="email" placeholder="name@example.com"
+                                                <c:set var="errorEmail">
+                                                    <form:errors path="email" cssClass="invalid-feedback"/>
+                                                </c:set>
+                                                <form:input class="form-control ${not empty errorEmail ? 'is-invalid' : ''}" id="inputEmail" type="email" placeholder="name@example.com"
                                                     path="email"/>
                                                 <label for="inputEmail">Email address</label>
+                                                ${errorEmail}
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">

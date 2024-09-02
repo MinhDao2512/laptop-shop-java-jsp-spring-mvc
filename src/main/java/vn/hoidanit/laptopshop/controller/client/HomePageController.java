@@ -52,9 +52,11 @@ public class HomePageController {
     public String postRegisterUser(Model model, @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
             BindingResult bindingResult) {
 
+        // Validation Start
         if (bindingResult.hasFieldErrors()) {
             return "client/auth/register";
         }
+        // Validation End
 
         User user = this.userService.registerDTOtoUSer(registerDTO);
         Role role = this.roleService.getByName("USER");

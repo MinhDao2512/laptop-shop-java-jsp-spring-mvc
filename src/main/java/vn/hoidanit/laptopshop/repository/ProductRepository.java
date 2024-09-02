@@ -7,7 +7,6 @@ import vn.hoidanit.laptopshop.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product save(Product product);
 
     Product findById(long id);
 
