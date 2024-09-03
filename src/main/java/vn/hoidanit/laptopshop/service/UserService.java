@@ -33,7 +33,7 @@ public class UserService {
         this.userRepository.deleteById(id);
     }
 
-    public List<User> getUsersByEmail(String email) {
+    public User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email);
     }
 
