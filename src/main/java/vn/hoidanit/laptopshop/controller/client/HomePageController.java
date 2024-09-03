@@ -71,4 +71,9 @@ public class HomePageController {
     public String getLoginPage(Model model) {
         return "/client/auth/login";
     }
+
+    @PostMapping("/login")
+    public String postLoginAccount(Model model) {
+        return "redirect:/";
+    }
 }
