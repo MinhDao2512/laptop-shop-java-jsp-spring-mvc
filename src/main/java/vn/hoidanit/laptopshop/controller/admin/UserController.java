@@ -66,7 +66,7 @@ public class UserController {
 
         // validation Start
         if (newUserBindingResult.hasFieldErrors()) {
-            return "/admin/user/create";
+            return "admin/user/create";
         }
         // validation End
         String hashPassword = this.passwordEncoder.encode(toilamdev.getPassword());
@@ -82,7 +82,7 @@ public class UserController {
     public String getUserUpdatePage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserById(id);
         model.addAttribute("newUser", currentUser);
-        return "/admin/user/update";
+        return "admin/user/update";
     }
 
     @PostMapping("/admin/user/update")
@@ -94,7 +94,7 @@ public class UserController {
         // Validation
         if (newUserBindingResult.hasFieldErrors()) {
             newUser.setAvatar(currentUser.getAvatar());
-            return "/admin/user/update";
+            return "admin/user/update";
         }
         // Validation
         Role currentRole = this.roleService.getByName(newUser.getRole().getName());

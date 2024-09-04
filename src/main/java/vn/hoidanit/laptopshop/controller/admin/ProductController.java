@@ -40,13 +40,13 @@ public class ProductController {
     public String getDetailProductPage(Model model, @PathVariable Long id) {
         Product product = this.productService.getProductById(id);
         model.addAttribute("product", product);
-        return "/admin/product/detail";
+        return "admin/product/detail";
     }
 
     @GetMapping("/admin/product/create")
     public String getCreateProductPage(Model model) {
         model.addAttribute("newProduct", new Product());
-        return "/admin/product/create";
+        return "admin/product/create";
     }
 
     @PostMapping("/admin/product/create")
@@ -60,7 +60,7 @@ public class ProductController {
             System.out.println(">>>>>" + error.getField() + "-" + error.getDefaultMessage());
         }
         if (newProductBindingResult.hasFieldErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
         }
         // validation
         product.setImage(this.fileService.handleSaveUploadFile(imageFileMultipartFile, "product"));
@@ -73,7 +73,7 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable Long id) {
         Product product = this.productService.getProductById(id);
         model.addAttribute("newProduct", product);
-        return "/admin/product/update";
+        return "admin/product/update";
     }
 
     @PostMapping("/admin/product/update")
@@ -84,7 +84,7 @@ public class ProductController {
         newProduct.setImage(currentProduct.getImage());
         // Validation Start
         if (newProductBindingResult.hasFieldErrors()) {
-            return "/admin/product/update";
+            return "admin/product/update";
         }
         // Validation End
 
@@ -101,7 +101,7 @@ public class ProductController {
     public String getDeleteProductPage(Model model, @ModelAttribute("currentProduct") Product currentProduct) {
         Product product = this.productService.getProductById(currentProduct.getId());
         model.addAttribute("currentProduct", product);
-        return "/admin/product/delete";
+        return "admin/product/delete";
     }
 
     @PostMapping("/admin/product/delete")
