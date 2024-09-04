@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         vn.hoidanit.laptopshop.domain.User user = this.userService.getUserByEmail(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Username or Password not found");
         }
 
         return new User(user.getEmail(), user.getPassword(),
