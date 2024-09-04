@@ -74,6 +74,12 @@ public class HomePageController {
 
     @PostMapping("/login")
     public String postLoginAccount(Model model) {
+
         return "redirect:/";
+    }
+
+    @GetMapping("/access-deny")
+    public String getDenyPage(Model model) {
+        return "client/auth/deny";
     }
 }
