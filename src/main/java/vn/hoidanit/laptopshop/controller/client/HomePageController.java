@@ -12,27 +12,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
-import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.service.ProductService;
-import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UserService;
+import vn.hoidanit.laptopshop.service.dto.UserDTO;
+import vn.hoidanit.laptopshop.service.mapper.UserMapper;
 
 @Controller
 public class HomePageController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final RoleService roleService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            RoleService roleService) {
+    public HomePageController(ProductService productService, UserService userService, UserMapper userMapper,
+            PasswordEncoder passwordEncoder) {
         this.productService = productService;
         this.userService = userService;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -44,42 +43,25 @@ public class HomePageController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-        model.addAttribute("registerUser", new RegisterDTO());
+        model.addAttribute("userDTO", new UserDTO());
         return "client/auth/register";
     }
 
     @PostMapping("/register")
-    public String postRegisterUser(Model model, @ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
+    public String postRegisterUser(Model model, @ModelAttribute("userDTO") @Valid UserDTO userDTO,
             BindingResult bindingResult) {
 
-        // Validation Start
         if (bindingResult.hasFieldErrors()) {
             return "client/auth/register";
         }
-        // Validation End
-
-        User user = this.userService.registerDTOtoUSer(registerDTO);
-        Role role = this.roleService.getByName("USER");
-
-        user.setPassword(this.passwordEncoder.encode(registerDTO.getPassword()));
-        user.setRole(role);
-        userService.createOrUpdateUser(user);
-        return "redirect:/login";
+        User user = this.userMapper.userDTOToUser(userDTO);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        this.userService.createOrUpdateUser(user);
+        return "redirect:/login?successRegister";
     }
 
     @GetMapping("/login")
     public String getLoginPage(Model model) {
         return "client/auth/login";
-    }
-
-    @PostMapping("/login")
-    public String postLoginAccount(Model model) {
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/access-deny")
-    public String getDenyPage(Model model) {
-        return "client/auth/deny";
     }
 }
