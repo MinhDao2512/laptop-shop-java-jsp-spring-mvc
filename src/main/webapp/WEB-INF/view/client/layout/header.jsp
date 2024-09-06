@@ -27,9 +27,9 @@
             </button>
             <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <a href="index.html" class="nav-item nav-link active">Trang Chủ</a>
-                    <a href="shop.html" class="nav-item nav-link">Sản Phẩm</a>
-                    <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
+                    <a href="/" class="nav-item nav-link active">Trang Chủ</a>
+                    <a href="/product" class="nav-item nav-link">Sản Phẩm</a>
+                    <a href="/contact" class="nav-item nav-link">Liên Hệ</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <c:if test="${not empty pageContext.request.userPrincipal}">

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.ProductService;
+import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UserService;
 import vn.hoidanit.laptopshop.service.dto.UserDTO;
 import vn.hoidanit.laptopshop.service.mapper.UserMapper;
@@ -25,13 +27,15 @@ public class HomePageController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public HomePageController(ProductService productService, UserService userService, UserMapper userMapper,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, RoleService roleService) {
         this.productService = productService;
         this.userService = userService;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -54,8 +58,10 @@ public class HomePageController {
         if (bindingResult.hasFieldErrors()) {
             return "client/auth/register";
         }
+        Role role = this.roleService.getByName("USER");
         User user = this.userMapper.userDTOToUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setRole(role);
         this.userService.createOrUpdateUser(user);
         return "redirect:/login?successRegister";
     }
