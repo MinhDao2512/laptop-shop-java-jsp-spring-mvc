@@ -11,9 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import jakarta.servlet.DispatcherType;
 import vn.hoidanit.laptopshop.service.UserService;
+import vn.hoidanit.laptopshop.service.security.CustomAuthenticationSuccessHandler;
 import vn.hoidanit.laptopshop.service.security.CustomUserDetailsService;
 
 @Configuration
@@ -28,6 +30,11 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(UserService userService) {
         return new CustomUserDetailsService(userService);
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
     @Bean
@@ -53,11 +60,11 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .successHandler(authenticationSuccessHandler())
                         .failureUrl("/login?error")
                         .permitAll())
                 .exceptionHandling(exceptions -> exceptions
                         .accessDeniedPage("/error/403"));
-
         return http.build();
     }
 }
