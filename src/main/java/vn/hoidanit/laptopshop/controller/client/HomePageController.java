@@ -70,4 +70,9 @@ public class HomePageController {
     public String getLoginPage(Model model) {
         return "client/auth/login";
     }
+
+    @GetMapping("/error/403")
+    public String get403ErrorPage() {
+        return "client/auth/403_error";
+    }
 }
