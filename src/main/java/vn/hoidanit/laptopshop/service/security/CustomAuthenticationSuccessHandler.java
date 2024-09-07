@@ -58,6 +58,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (user != null) {
             session.setAttribute("fullName", user.getFullName());
             session.setAttribute("avatar", user.getAvatar());
+            session.setAttribute("role", user.getRole().getName());
         }
     }
 }

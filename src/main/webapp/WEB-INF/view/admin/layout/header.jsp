@@ -22,13 +22,22 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-
-                <li>
-                    <hr class="dropdown-divider" />
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">       
+                <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
+                    <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
+                        src="/images/avatar/${sessionScope.avatar}" />
+                    <div class="text-center my-3">
+                        <c:out value="${sessionScope.fullName}"/>
+                    </div>
                 </li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="/">Trang chủ</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <button type="submit" class="dropdown-item">Đăng xuất</button>
+                    </form>
+                </li>
             </ul>
         </li>
     </ul>
