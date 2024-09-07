@@ -7,6 +7,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,12 @@ import vn.hoidanit.laptopshop.service.security.CustomUserDetailsService;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
+    private final UserService userService;
+
+    public SecurityConfiguration(UserService userService) {
+        this.userService = userService;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -34,8 +41,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
+    public AuthenticationSuccessHandler authenticationSuccessHandler(UserService userService) {
+        return new CustomAuthenticationSuccessHandler(userService);
     }
 
     @Bean
@@ -66,11 +73,16 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .sessionManagement((sessionManagement) -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                        .invalidSessionUrl("/logout?expired")
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false))
                 .rememberMe(rememberMe -> rememberMe
                         .rememberMeServices(rememberMeServices()))
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .successHandler(authenticationSuccessHandler())
+                        .successHandler(authenticationSuccessHandler(userService))
                         .failureUrl("/login?error")
                         .permitAll())
                 .exceptionHandling(exceptions -> exceptions
