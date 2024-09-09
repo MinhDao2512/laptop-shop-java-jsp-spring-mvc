@@ -1,10 +1,13 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -40,6 +43,9 @@ public class Product {
     @NotNull(message = "Số lượng không được để trống")
     @Min(value = 1, message = "Số lượng cần lớn hơn hoặc bằng 1")
     private Long quantity;
+
+    @OneToMany(mappedBy = "product")
+    private List<CartDetail> cartDetails;
 
     private Long sold;
     private String factory;
@@ -99,6 +105,14 @@ public class Product {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public List<CartDetail> getCartDetails() {
+        return cartDetails;
+    }
+
+    public void setCartDetails(List<CartDetail> cartDetails) {
+        this.cartDetails = cartDetails;
     }
 
     public Long getSold() {
