@@ -71,18 +71,14 @@ public class ProductService {
                 session.setAttribute("sum", 1);
             } else {
                 // to do
-                List<CartDetail> cartDetails = this.cartDetailRepository.findByCart(cart);
-                boolean existsProduct = false;
-                for (CartDetail cartDetail : cartDetails) {
-                    if (cartDetail.getProduct().getId() == product.getId()) {
-                        cartDetail.setQuantity(cartDetail.getQuantity() + 1);
-                        cartDetail.setPrice(cartDetail.getQuantity() * product.getPrice());
-                        this.cartDetailRepository.save(cartDetail);
-                        existsProduct = true;
-                    }
-                }
-                if (!existsProduct) {
+                CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart, product);
+                if (oldDetail != null) {
+                    oldDetail.setQuantity(oldDetail.getQuantity() + 1);
+                    oldDetail.setPrice(oldDetail.getQuantity() * product.getPrice());
+                    this.cartDetailRepository.save(oldDetail);
+                } else {
                     cart.setSum(cart.getSum() + 1);
+                    this.cartRepository.save(cart);
                     session.setAttribute("sum", cart.getSum());
                     CartDetail cartDetail = new CartDetail();
                     cartDetail.setPrice(product.getPrice());

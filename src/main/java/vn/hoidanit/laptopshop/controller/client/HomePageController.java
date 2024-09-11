@@ -10,10 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import vn.hoidanit.laptopshop.domain.Cart;
+import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.CartDetailService;
+import vn.hoidanit.laptopshop.service.CartService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UserService;
@@ -28,14 +34,19 @@ public class HomePageController {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final CartService cartService;
+    private final CartDetailService cartDetailService;
 
     public HomePageController(ProductService productService, UserService userService, UserMapper userMapper,
-            PasswordEncoder passwordEncoder, RoleService roleService) {
+            PasswordEncoder passwordEncoder, RoleService roleService, CartService cartService,
+            CartDetailService cartDetailService) {
         this.productService = productService;
         this.userService = userService;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.cartService = cartService;
+        this.cartDetailService = cartDetailService;
     }
 
     @GetMapping("/")
@@ -74,5 +85,17 @@ public class HomePageController {
     @GetMapping("/error/403")
     public String get403ErrorPage() {
         return "client/auth/403_error";
+    }
+
+    @GetMapping("/cart-detail")
+    public String getCartDetailPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        User user = this.userService.getUserByEmail((String) session.getAttribute("email"));
+        Cart cart = this.cartService.getCartByUser(user);
+        List<CartDetail> cartDetails = this.cartDetailService.getCartDetailsByCart(cart);
+
+        model.addAttribute("cartDetails", cartDetails);
+        return "client/cart/show";
     }
 }
