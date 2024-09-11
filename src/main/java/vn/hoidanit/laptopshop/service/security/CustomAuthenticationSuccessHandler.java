@@ -13,16 +13,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.CartService;
 import vn.hoidanit.laptopshop.service.UserService;
 
 @Service
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserService userService;
+    private final CartService cartService;
 
-    public CustomAuthenticationSuccessHandler(UserService userService) {
+    public CustomAuthenticationSuccessHandler(UserService userService, CartService cartService) {
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @Override
@@ -56,9 +60,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         User user = this.userService.getUserByEmail(authentication.getName());
         if (user != null) {
+            Cart cart = this.cartService.getCartByUser(user);
+            if (cart != null) {
+                session.setAttribute("sum", cart.getSum());
+            } else {
+                session.setAttribute("sum", 0);
+            }
             session.setAttribute("fullName", user.getFullName());
             session.setAttribute("avatar", user.getAvatar());
             session.setAttribute("role", user.getRole().getName());
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("id", user.getId());
         }
     }
 }

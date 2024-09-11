@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import jakarta.servlet.DispatcherType;
+import vn.hoidanit.laptopshop.service.CartService;
 import vn.hoidanit.laptopshop.service.UserService;
 import vn.hoidanit.laptopshop.service.security.CustomAuthenticationSuccessHandler;
 import vn.hoidanit.laptopshop.service.security.CustomUserDetailsService;
@@ -25,9 +26,11 @@ import vn.hoidanit.laptopshop.service.security.CustomUserDetailsService;
 public class SecurityConfiguration {
 
     private final UserService userService;
+    private final CartService cartService;
 
-    public SecurityConfiguration(UserService userService) {
+    public SecurityConfiguration(UserService userService, CartService cartService) {
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @Bean
@@ -41,8 +44,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler(UserService userService) {
-        return new CustomAuthenticationSuccessHandler(userService);
+    public AuthenticationSuccessHandler authenticationSuccessHandler(UserService userService, CartService cartService) {
+        return new CustomAuthenticationSuccessHandler(userService, cartService);
     }
 
     @Bean
@@ -82,7 +85,7 @@ public class SecurityConfiguration {
                         .rememberMeServices(rememberMeServices()))
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .successHandler(authenticationSuccessHandler(userService))
+                        .successHandler(authenticationSuccessHandler(userService, cartService))
                         .failureUrl("/login?error")
                         .permitAll())
                 .exceptionHandling(exceptions -> exceptions
