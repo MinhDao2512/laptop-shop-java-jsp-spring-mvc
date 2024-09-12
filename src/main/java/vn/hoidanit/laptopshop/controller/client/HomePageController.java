@@ -101,4 +101,19 @@ public class HomePageController {
         }
         return "client/cart/show";
     }
+
+    @GetMapping("/confirm-checkout")
+    public String getCheckoutPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        User user = this.userService.getUserByEmail((String) session.getAttribute("email"));
+        Cart cart = this.cartService.getCartByUser(user);
+        if (cart != null) {
+            List<CartDetail> cartDetails = this.cartDetailService.getCartDetailsByCart(cart);
+            model.addAttribute("cartDetails", cartDetails);
+        } else {
+            session.setAttribute("sum", 0);
+        }
+        return "client/cart/checkout";
+    }
 }

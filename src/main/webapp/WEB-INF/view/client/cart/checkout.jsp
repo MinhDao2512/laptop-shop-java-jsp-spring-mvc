@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Giỏ Hàng - LaptopShop</title>
+    <title>Thanh Toán - LaptopShop</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -35,10 +35,10 @@
 
     <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6">Giỏ hàng</h1>
+        <h1 class="text-center text-white display-6">Thông tin thanh toán</h1>
         <ol class="breadcrumb justify-content-center mb-0">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            <li class="breadcrumb-item active text-white">Giỏ hàng</li>
+            <li class="breadcrumb-item active text-white">Thông tin thanh toán</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
@@ -82,17 +82,7 @@
                                 </td>
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
                                         <input type="text" class="form-control form-control-sm text-center border-0" value="${cartDetail.quantity}">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
                                     </div>
                                 </td>
                                 <td>
@@ -117,36 +107,68 @@
                 </c:if>
             </div>
             <c:if test="${not empty cartDetails}">
-                <div class="mt-5 row g-4 justify-content-end">
-                    <div class="col-12 col-md-6">
-                        <div class="bg-light rounded">
-                            <div class="p-4">
-                                <h1 class="display-6 mb-4">Thông tin <span class="fw-normal">Đơn Hàng</span></h1>
-                                <div class="d-flex justify-content-between mb-4">
-                                    <h5 class="mb-0 me-4">Tạm tính:</h5>
-                                    <p class="mb-0">
-                                        <fmt:formatNumber type="number" value="${totalPrice}"/> đ
-                                    </p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="mb-0 me-4">Phí vận chuyển</h5>
-                                    <div class="">
-                                        <p class="mb-0">0 đ</p>
+                <form:form action="/place-order" method="post" modelAttribute="cart">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <div class="mt-5 row g-4 justify-content-start">
+                        <div class="col-12 col-md-6">
+                            <div class="p-4 ">
+                                <h5>Thông Tin Người Nhận
+                                </h5>
+                                <div class="row">
+                                    <div class="col-12 form-group mb-3">
+                                        <label>Tên người nhận</label>
+                                        <input class="form-control" name="receiverName" required />
+                                    </div>
+                                    <div class="col-12 form-group mb-3">
+                                        <label>Địa chỉ người nhận</label>
+                                        <input class="form-control" name="receiverAddress" required />
+                                    </div>
+                                    <div class="col-12 form-group mb-3">
+                                        <label>Số điện thoại</label>
+                                        <input class="form-control" name="receiverPhone" required />
+                                    </div>
+                                    <div class="mt-4">
+                                        <i class="fas fa-arrow-left"></i>
+                                        <a href="/cart-detail">Quay lại giỏ hàng</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                                <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                                <p class="mb-0 pe-4">
-                                    <fmt:formatNumber type="number" value="${totalPrice}"/> đ
-                                </p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="bg-light rounded">
+                                <div class="p-4">
+                                    <h1 class="display-6 mb-4">Thông Tin <span class="fw-normal">Thanh
+                                            Toán</span>
+                                    </h1>
+
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0 me-4">Phí vận chuyển</h5>
+                                        <div class="">
+                                            <p class="mb-0">0 đ</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 d-flex justify-content-between">
+                                        <h5 class="mb-0 me-4">Hình thức</h5>
+                                        <div class="">
+                                            <p class="mb-0">Thanh toán khi nhận hàng (COD)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                                    <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
+                                    <p class="mb-0 pe-4" data-cart-total-price="${totalPrice}">
+                                        <fmt:formatNumber type="number" value="${totalPrice}" /> đ
+                                    </p>
+                                </div>
+                                <button
+                                    class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
+                                    Xác nhận thanh toán
+                                </button>
                             </div>
-                            <form action="/confirm-checkout" method="get">
-                                <button type="submit" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Tiến hành đặt hàng</button>
-                            </form>
                         </div>
                     </div>
-                </div>
+                </form:form>
             </c:if>
         </div>
     </div>
