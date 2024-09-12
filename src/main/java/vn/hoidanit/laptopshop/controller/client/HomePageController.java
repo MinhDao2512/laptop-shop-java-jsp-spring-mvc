@@ -93,9 +93,12 @@ public class HomePageController {
 
         User user = this.userService.getUserByEmail((String) session.getAttribute("email"));
         Cart cart = this.cartService.getCartByUser(user);
-        List<CartDetail> cartDetails = this.cartDetailService.getCartDetailsByCart(cart);
-
-        model.addAttribute("cartDetails", cartDetails);
+        if (cart != null) {
+            List<CartDetail> cartDetails = this.cartDetailService.getCartDetailsByCart(cart);
+            model.addAttribute("cartDetails", cartDetails);
+        } else {
+            session.setAttribute("sum", 0);
+        }
         return "client/cart/show";
     }
 }

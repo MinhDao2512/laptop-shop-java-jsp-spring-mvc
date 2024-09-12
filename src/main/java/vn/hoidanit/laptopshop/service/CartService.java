@@ -17,4 +17,8 @@ public class CartService {
     public Cart getCartByUser(User user) {
         return this.cartRepository.findByUser(user);
     }
+
+    public Cart createOrUpdateCart(Cart cart) {
+        return this.cartRepository.save(cart);
+    }
 }

@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.service.CartDetailService;
 import vn.hoidanit.laptopshop.service.ProductService;
 
 @Controller("clientProductController")
 public class ProductController {
     private final ProductService productService;
+    private final CartDetailService cartDetailService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CartDetailService cartDetailService) {
         this.productService = productService;
+        this.cartDetailService = cartDetailService;
     }
 
     @GetMapping("/product/{id}")
@@ -29,5 +34,12 @@ public class ProductController {
         Product product = this.productService.getProductById(id);
         productService.addProductToCart(product);
         return "redirect:/";
+    }
+
+    @PostMapping("/delete-cart-detail/{id}")
+    public String postDeleteCartDetail(@PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        this.cartDetailService.deleteCartDetailById(id, session);
+        return "redirect:/cart-detail";
     }
 }
