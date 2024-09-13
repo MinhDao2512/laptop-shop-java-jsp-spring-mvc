@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Tôi Làm Dev - Dự án LaptopShop" />
     <meta name="author" content="Tôi Làm Dev" />
-    <title>Dashboard - Order</title>
+    <title>Dashboard - Delete Product</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -34,37 +34,27 @@
                     <h1 class="mt-4">Manage Orders</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="/admin">Dashboard </a></li>
-                        <li class="breadcrumb-item active">Orders</li>
+                        <li class="breadcrumb-item"><a href="/admin/order">Orders</a></li>
+                        <li class="breadcrumb-item active">Delete</li>
                     </ol>
                     <div class = "mt-5">
                         <div class = "row">
                             <div class="col-12 mx-auto">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Total Price</th>
-                                        <th scope="col">User</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="order" items="${orders}">
-                                            <tr>
-                                                <th scope="row">${order.id}</th>
-                                                <td><fmt:formatNumber type="number" value="${order.totalPrice}"/> đ</td>
-                                                <td>${order.user.role.description}</td>
-                                                <td>${order.status}</td>
-                                            <td>
-                                                <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
-                                                <a href="/admin/order/update/${order.id}" class="btn btn-warning mx-2">Update</a>
-                                                <a class="btn btn-danger" href="/admin/order/delete/${order.id}">Delete</a>
-                                            </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                <h3>Delete the order with id = ${id}</h3>
+                                <hr>
+                                <div class="alert alert-danger" role="alert">
+                                    Are you sure to delete this order ?
+                                </div>
+                                <form:form action="/admin/order/delete" method="post" modelAttribute="order">
+                                    <div class="mb-3" style="display: none;">
+                                        <label class="form-label">Id:</label>
+                                        <form:input type="text" class="form-control" path="id"/>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <a class="btn btn-success" href="/admin/order">Cancel</a>
+                                        <button type="submit" class="btn btn-danger">Confirm</button>
+                                    </div>
+                                </form:form>
                             </div>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Tôi Làm Dev - Dự án LaptopShop" />
     <meta name="author" content="Tôi Làm Dev" />
-    <title>Dashboard - Create Product</title>
+    <title>Dashboard - Update Product</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!--Import JQuery-->
@@ -37,7 +37,7 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="/admin">Dashboard </a></li>
                         <li class="breadcrumb-item"><a href="/admin/product">Products</a></li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item active">Update</li>
                     </ol>
                     <div class="mt-5">
                         <div class="row">

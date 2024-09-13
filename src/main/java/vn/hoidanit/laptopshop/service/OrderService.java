@@ -67,4 +67,20 @@ public class OrderService {
             session.setAttribute("sum", 0);
         }
     }
+
+    public List<Order> getAllOrders() {
+        return this.orderRepository.findAll();
+    }
+
+    public Order getOrderById(long id) {
+        return this.orderRepository.findById(id);
+    }
+
+    public Order createOrUpdateOrder(Order order) {
+        return this.orderRepository.save(order);
+    }
+
+    public void deleteOrderById(Long id) {
+        this.orderRepository.deleteById(id);
+    }
 }

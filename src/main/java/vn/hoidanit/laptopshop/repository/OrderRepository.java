@@ -7,5 +7,5 @@ import vn.hoidanit.laptopshop.domain.Order;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-
+    Order findById(long id);
 }
