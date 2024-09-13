@@ -90,4 +90,8 @@ public class ProductService {
             }
         }
     }
+
+    public Long getCountAllProducts() {
+        return this.productRepository.count();
+    }
 }

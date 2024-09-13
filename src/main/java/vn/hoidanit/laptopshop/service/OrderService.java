@@ -83,4 +83,8 @@ public class OrderService {
     public void deleteOrderById(Long id) {
         this.orderRepository.deleteById(id);
     }
+
+    public Long getCountAllOrders() {
+        return this.orderRepository.count();
+    }
 }
