@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.CartDetailService;
 import vn.hoidanit.laptopshop.service.CartService;
+import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UserService;
@@ -36,10 +38,11 @@ public class HomePageController {
     private final RoleService roleService;
     private final CartService cartService;
     private final CartDetailService cartDetailService;
+    private final OrderService orderService;
 
     public HomePageController(ProductService productService, UserService userService, UserMapper userMapper,
             PasswordEncoder passwordEncoder, RoleService roleService, CartService cartService,
-            CartDetailService cartDetailService) {
+            CartDetailService cartDetailService, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.userMapper = userMapper;
@@ -47,6 +50,7 @@ public class HomePageController {
         this.roleService = roleService;
         this.cartService = cartService;
         this.cartDetailService = cartDetailService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -115,5 +119,23 @@ public class HomePageController {
             session.setAttribute("sum", 0);
         }
         return "client/cart/checkout";
+    }
+
+    @GetMapping("/thanks")
+    public String getThankYouPage() {
+
+        return "client/cart/thanks";
+    }
+
+    @PostMapping("/place-order")
+    public String postPlaceOrderProduct(
+            HttpServletRequest request,
+            @RequestParam("receiverName") String receiverName,
+            @RequestParam("receiverAddress") String receiverAddress,
+            @RequestParam("receiverPhone") String receiverPhone) {
+
+        HttpSession session = request.getSession(false);
+        this.orderService.placeOrder(receiverName, receiverAddress, receiverPhone, session);
+        return "redirect:/thanks";
     }
 }
