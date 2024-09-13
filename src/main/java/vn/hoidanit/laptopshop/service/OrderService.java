@@ -87,4 +87,8 @@ public class OrderService {
     public Long getCountAllOrders() {
         return this.orderRepository.count();
     }
+
+    public List<Order> getAllByUser(User user) {
+        return this.orderRepository.findByUser(user);
+    }
 }

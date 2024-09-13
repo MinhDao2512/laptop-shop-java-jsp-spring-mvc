@@ -1,6 +1,8 @@
 package vn.hoidanit.laptopshop.controller.client;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,11 +18,14 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
+import vn.hoidanit.laptopshop.domain.Order;
+import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.CartDetailService;
 import vn.hoidanit.laptopshop.service.CartService;
+import vn.hoidanit.laptopshop.service.OrderDetailService;
 import vn.hoidanit.laptopshop.service.OrderService;
 import vn.hoidanit.laptopshop.service.ProductService;
 import vn.hoidanit.laptopshop.service.RoleService;
@@ -39,10 +44,11 @@ public class HomePageController {
     private final CartService cartService;
     private final CartDetailService cartDetailService;
     private final OrderService orderService;
+    private final OrderDetailService orderDetailService;
 
     public HomePageController(ProductService productService, UserService userService, UserMapper userMapper,
             PasswordEncoder passwordEncoder, RoleService roleService, CartService cartService,
-            CartDetailService cartDetailService, OrderService orderService) {
+            CartDetailService cartDetailService, OrderService orderService, OrderDetailService orderDetailService) {
         this.productService = productService;
         this.userService = userService;
         this.userMapper = userMapper;
@@ -51,6 +57,7 @@ public class HomePageController {
         this.cartService = cartService;
         this.cartDetailService = cartDetailService;
         this.orderService = orderService;
+        this.orderDetailService = orderDetailService;
     }
 
     @GetMapping("/")
@@ -137,5 +144,21 @@ public class HomePageController {
         HttpSession session = request.getSession(false);
         this.orderService.placeOrder(receiverName, receiverAddress, receiverPhone, session);
         return "redirect:/thanks";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User user = this.userService.getUserByEmail((String) session.getAttribute("email"));
+        List<Order> orders = this.orderService.getAllByUser(user);
+        if (orders != null) {
+            Map<Order, List<OrderDetail>> map = new HashMap<>();
+            for (Order order : orders) {
+                List<OrderDetail> orderDetails = this.orderDetailService.getAllByOrder(order);
+                map.put(order, orderDetails);
+            }
+            model.addAttribute("mapData", map);
+        }
+        return "client/cart/order-history";
     }
 }
