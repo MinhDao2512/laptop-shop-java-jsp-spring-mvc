@@ -40,4 +40,8 @@ public class ProductSpecs {
         return (root, query, builder) -> builder.between(root.get(Product_.PRICE), min, max);
     }
 
+    // Case 7: Multi Target
+    public static Specification<Product> queryByMultiTarget(List<String> target) {
+        return (root, query, builder) -> builder.in(root.get(Product_.TARGET)).value(target);
+    }
 }
