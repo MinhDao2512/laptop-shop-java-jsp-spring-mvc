@@ -184,7 +184,7 @@
 
                         <!--Products Start-->
                         <div class="col-lg-9">
-                            <div class="row g-4 justify-content-center">
+                            <div class="row g-4">
                                 <c:forEach var="product" items="${products}">
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="rounded position-relative fruite-item">
@@ -193,7 +193,9 @@
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.factory}</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>${product.name}</h4>
+                                                <h4 style="font-size: 15px;">
+                                                    <a href="/product/${product.id}">${product.name}</a>
+                                                </h4>
                                                 <p>${product.shortDesc}</p>
                                                 <div class="d-flex justify-content-center flex-lg-wrap">
                                                     <p class="text-dark fs-5 fw-bold mb-0">
@@ -215,7 +217,7 @@
                                     <div class="pagination d-flex justify-content-center mt-5">
                                         <a href="/products?page=${currentPage-1}" class="rounded">&laquo;</a>
                                         <c:forEach var="i" begin="1" end="${totalPages}">
-                                            <a href="/product?page=${i}" class="${i == currentPage ? 'active' : ''} rounded">${i}</a>
+                                            <a href="/products?page=${i}" class="${i == currentPage ? 'active' : ''} rounded">${i}</a>
                                         </c:forEach>
                                         <a href="/products?page=${currentPage+1}" class="rounded">&raquo;</a>
                                     </div>

@@ -1,5 +1,6 @@
 package vn.hoidanit.laptopshop.controller.client;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,12 +36,37 @@ public class ProductController {
 
     @GetMapping("/products")
     public String getProductsPage(Model model, @RequestParam("page") Optional<String> pageOptional,
-            @RequestParam("name") Optional<String> nameOptional) {
-        int page = this.hPaginationService.isExistsPageParameter(pageOptional);
-        String name = nameOptional.get();
+            @RequestParam("min-price") Optional<String> minOptional,
+            @RequestParam("max-price") Optional<String> maxOptional,
+            @RequestParam("factory") Optional<String> factoryOptional,
+            @RequestParam("price") Optional<String> priceOptional,
+            @RequestParam("target") Optional<String> targetOptional) {
 
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, name);
+        int page = this.hPaginationService.isExistsPageParameter(pageOptional);
+
+        // Case 1: min-price
+        // Double minPrice = minOptional.isPresent() ?
+        // Double.parseDouble(minOptional.get()) : 0;
+
+        // Case 2: max-price
+        // Double maxPrice = maxOptional.isPresent() ?
+        // Double.parseDouble(maxOptional.get()) : 0;
+
+        // Case 3: factory
+        // String factory = factoryOptional.isPresent() ? factoryOptional.get() : "";
+
+        // Case 4: Multi factory
+        // List<String> factory = factoryOptional.isPresent() ?
+        // Arrays.asList(factoryOptional.get().split(",")) : null;
+
+        // Case 5: 10-toi-15-trieu && 15-toi-20-trieu
+        // String price = priceOptional.isPresent() ? priceOptional.get() : "";
+
+        // Case 6: Multi Range Price
+        List<String> price = priceOptional.isPresent() ? Arrays.asList(priceOptional.get().split(",")) : null;
+
+        Pageable pageable = PageRequest.of(page - 1, 60);
+        Page<Product> prs = this.productService.fetchProductsByMultiPrice(pageable, price);
 
         List<Product> products = prs.getContent();
 
