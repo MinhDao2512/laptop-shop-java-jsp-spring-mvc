@@ -1,6 +1,7 @@
 package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,21 +21,26 @@ import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.service.FileService;
 import vn.hoidanit.laptopshop.service.ProductService;
+import vn.hoidanit.laptopshop.service.exception.HandleExceptionPaginationService;
 
 @Controller("adminProductController")
 public class ProductController {
 
     private final ProductService productService;
     private final FileService fileService;
+    private final HandleExceptionPaginationService hPaginationService;
 
-    public ProductController(ProductService productService, FileService fileService) {
+    public ProductController(ProductService productService, FileService fileService,
+            HandleExceptionPaginationService hPaginationService) {
         this.productService = productService;
         this.fileService = fileService;
+        this.hPaginationService = hPaginationService;
     }
 
     @GetMapping("/admin/product")
-    public String getProductPage(Model model, @RequestParam("page") int page) {
+    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
         // page = 1 & limit = 10
+        int page = this.hPaginationService.isExistsPageParameter(pageOptional);
 
         Pageable pageable = PageRequest.of(page - 1, 2);
 
