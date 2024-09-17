@@ -1,15 +1,15 @@
 package vn.hoidanit.laptopshop.service.exception;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
+
+import vn.hoidanit.laptopshop.service.dto.ProductCriterialDTO;
 
 @Service
 public class HandleExceptionPaginationService {
-    public int isExistsPageParameter(Optional<String> pageOptional) {
+    public int isExistsPageParameter(ProductCriterialDTO productCriterialDTO) {
         try {
-            if (pageOptional.isPresent()) {
-                return Integer.parseInt(pageOptional.get());
+            if (productCriterialDTO.getPage().isPresent()) {
+                return Integer.parseInt(productCriterialDTO.getPage().get());
             } else {
                 return 1;
             }

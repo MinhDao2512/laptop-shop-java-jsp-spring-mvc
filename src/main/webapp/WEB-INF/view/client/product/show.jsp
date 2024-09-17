@@ -220,11 +220,13 @@
                                     </c:forEach>                                
                                     <div class="col-12">
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                            <a href="/products?page=${currentPage-1}" class="rounded">&laquo;</a>
+                                            <a href="/products?page=${currentPage-1}${queryString}" class="rounded">&laquo;</a>
                                             <c:forEach var="i" begin="1" end="${totalPages}">
-                                                <a href="/products?page=${i}" class="${i == currentPage ? 'active' : ''} rounded">${i}</a>
+                                                <a href="/products?page=${i}${queryString}" class="${i == currentPage ? 'active' : ''} rounded">
+                                                    ${i}
+                                                </a>
                                             </c:forEach>
-                                            <a href="/products?page=${currentPage+1}" class="rounded">&raquo;</a>
+                                            <a href="/products?page=${currentPage+1}${queryString}" class="rounded">&raquo;</a>
                                         </div>
                                     </div>
                                 </c:if>

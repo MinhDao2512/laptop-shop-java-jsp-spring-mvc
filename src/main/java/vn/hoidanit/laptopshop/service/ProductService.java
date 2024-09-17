@@ -168,7 +168,7 @@ public class ProductService {
         if (productCriterialDTO.getPrice() != null &&
                 productCriterialDTO.getPrice().isPresent()) {
             List<String> price = Arrays.asList(productCriterialDTO.getPrice().get().split(","));
-            Specification<Product> priceSpec = (root, query, builder) -> builder.disjunction();
+            Specification<Product> priceSpec = Specification.where(null);
 
             for (String p : price) {
                 double min = 0;

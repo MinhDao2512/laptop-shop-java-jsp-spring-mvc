@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.service.FileService;
 import vn.hoidanit.laptopshop.service.ProductService;
+import vn.hoidanit.laptopshop.service.dto.ProductCriterialDTO;
 import vn.hoidanit.laptopshop.service.exception.HandleExceptionPaginationService;
 
 @Controller("adminProductController")
@@ -38,9 +39,9 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getProductPage(Model model, ProductCriterialDTO productCriterialDTO) {
         // page = 1 & limit = 10
-        int page = this.hPaginationService.isExistsPageParameter(pageOptional);
+        int page = this.hPaginationService.isExistsPageParameter(productCriterialDTO);
 
         Pageable pageable = PageRequest.of(page - 1, 2);
 
