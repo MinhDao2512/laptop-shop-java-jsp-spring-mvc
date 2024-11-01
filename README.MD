@@ -2,6 +2,7 @@ Author: Tôi Làm Dev (Nguyễn Minh Đạo)
 
 LAPTOP SHOP WEBSITE
 "Laptop Shop Website" là một nền tảng trực tuyến cho phép người dùng mua, bán laptop. Ứng dụng được xây dựng với Spring Framework 6 cho phần back-end, sử dụng JSP cho phần front-end, kết hợp với Bootstrap 5
+"Laptop Shop Website" được thiết kế theo mô hình Model - View - Controller (MVC)
 
 * Tính năng:
   - Đăng ký và Đăng nhập: Người dùng có thể tạo tài khoản và đăng nhập để truy cập vào các tính năng của website.
